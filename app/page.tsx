@@ -39,7 +39,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {photos.map((photo: any) => (
           <Link href={`/photo/${photo.id}`} key={photo.id}>
-            <div className="relative h-64 bg-gray-200 rounded-lg overflow-hidden hover:opacity-90 transition-opacity shadow-sm border border-gray-200">
+            <div className="relative h-64 bg-gray-200 rounded-lg overflow-hidden hover:opacity-90 transition-all duration-300 shadow-xl hover:shadow-2xl border border-gray-200">
               <Image
                 src={photo.urls.regular}
                 alt={photo.alt_description || "Unsplash image"}

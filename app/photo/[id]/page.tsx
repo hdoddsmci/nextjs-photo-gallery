@@ -1,6 +1,8 @@
+import DownloadButton from "./DownloadButton";
 import Image from "next/image";
 import Link from "next/link";
 import LikeButton from "./LikeButton";
+import BackButton from "./BackButton";
 
 export default async function PhotoPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -23,9 +25,9 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
 
   return (
     <div className="max-w-3xl mx-auto pb-10">
-      <Link href="/" className="text-blue-500 hover:underline mb-4 inline-block font-medium">
-        &larr; Back to Gallery
-      </Link>
+      
+      {/* Here is your new BackButton that remembers the user's history! */}
+      <BackButton />
       
       <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
         {/* The large image container */}
@@ -40,7 +42,7 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
           />
         </div>
         
-        {/* The info and Like button area */}
+        {/* The info and buttons area */}
         <div className="p-6 flex justify-between items-center bg-white">
           <div>
             <h1 className="text-xl font-bold mb-1 text-gray-900">
@@ -51,7 +53,12 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
             </p>
           </div>
           
-          <LikeButton photoId={resolvedParams.id} />
+          {/* We wrapped both buttons in a flex container so they sit side-by-side */}
+          <div className="flex gap-4 items-center">
+            <LikeButton photoId={resolvedParams.id} />
+            <DownloadButton url={photo.urls.full} photoId={photo.id} />
+          </div>
+          
         </div>
       </div>
     </div>
