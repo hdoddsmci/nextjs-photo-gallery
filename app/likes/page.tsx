@@ -34,7 +34,7 @@ export default function LikesPage() {
 
   return (
     <main className="max-w-6xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Reef's Liked Photos</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">Your Liked Photos</h1>
 
       {loading ? (
         <p className="text-center text-gray-500 font-medium mt-10">Loading your favorites...</p>
