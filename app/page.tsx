@@ -1,3 +1,5 @@
+//IMPORTS Bring in the tools and components we need for this page
+import Counter from "./Counter";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
@@ -35,6 +37,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       <h1 className="text-3xl font-bold text-center mb-6">Unsplash Gallery</h1>
 
       <SearchBar />
+
+      <div className="flex justify-center mb-8">
+        <Counter/>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {photos.map((photo: any) => (
