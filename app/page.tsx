@@ -1,8 +1,10 @@
 //IMPORTS Bring in the tools and components we need for this page
+import DarkMode from "./DarkMode";
 import Counter from "./Counter";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import { error } from "console";
 
 // 1. Tell searchParams to expect a 'page' along with the 'query'
 export default async function Home({ searchParams }: { searchParams: Promise<{ query?: string; page?: string }> }) {
@@ -31,15 +33,23 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
     );
     photos = await response.json();
   }
-
+// throw new Error("Crash");
   return (
     <main className="max-w-6xl mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold text-center mb-6">Unsplash Gallery</h1>
 
       <SearchBar />
-
       <div className="flex justify-center mb-8">
-        <Counter/>
+        <DarkMode/>
+      </div>
+    <div className="flex justify-center mb-8">
+      <Counter />
+    </div>
+
+      <div className={`p-4 text-center font-bold rounded mt-4 ${
+        true ? "bg-amber-100 text-amber-900" : "bg-blue-100 text-blue-900"
+      }`}>
+        Styling Challenge Box
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -85,6 +95,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
           </Link>
         </div>
       )}
+     
+        <form action={async () => {
+      "use server";
+      throw new Error("Server Validation Failed!");
+    }}>
+      <button type="submit">Test Server</button>
+    </form>
+
     </main>
   );
 }
