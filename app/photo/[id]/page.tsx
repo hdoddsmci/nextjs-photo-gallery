@@ -4,14 +4,18 @@ import Link from "next/link";
 import LikeButton from "./LikeButton";
 import BackButton from "./BackButton";
 
+// This page uses dynamic routing. The URL will have a unique photo ID at the end of it.
 export default async function PhotoPage({ params }: { params: Promise<{ id: string }> }) {
+  
+  // Next.js 15 requires us to await the parameters from the URL before we can use them.
   const resolvedParams = await params;
   
-  // Fetch the specific single photo from Unsplash using the ID from the URL
+  // We use the ID from the URL to ask Unsplash for one specific high-quality photo.
   const response = await fetch(
     `https://api.unsplash.com/photos/${resolvedParams.id}?client_id=${process.env.UNSPLASH_ACCESS_KEY}`
   );
 
+  // If Unsplash says the photo doesn't exist anymore, we show an error message instead of breaking the page.
   if (!response.ok) {
     return (
       <div className="text-center mt-10">
@@ -21,17 +25,19 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
     );
   }
 
+  // We convert the Unsplash data into JSON so we can read it.
   const photo = await response.json();
 
   return (
     <div className="max-w-3xl mx-auto pb-10">
       
-      {/* Here is your new BackButton that remembers the user's history! */}
+      {/* This component remembers where the user came from so they can click back easily. */}
       <BackButton />
       
       <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-        {/* The large image container */}
         <div className="relative w-full h-[600px] bg-gray-100">
+          
+          {/* We use the Next.js Image component here because it automatically optimizes the massive Unsplash photo so the site loads faster. */}
           <Image
             src={photo.urls.regular}
             alt={photo.alt_description || "Unsplash photo"}
@@ -42,7 +48,6 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
           />
         </div>
         
-        {/* The info and buttons area */}
         <div className="p-6 flex justify-between items-center bg-white">
           <div>
             <h1 className="text-xl font-bold mb-1 text-gray-900">
@@ -53,7 +58,7 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
             </p>
           </div>
           
-          {/* We wrapped both buttons in a flex container so they sit side-by-side */}
+          {/* We load our interactive client components here for liking and downloading. */}
           <div className="flex gap-4 items-center">
             <LikeButton photoId={resolvedParams.id} />
             <DownloadButton url={photo.urls.full} photoId={photo.id} />
